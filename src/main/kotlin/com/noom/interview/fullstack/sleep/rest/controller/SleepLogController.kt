@@ -2,7 +2,9 @@ package com.noom.interview.fullstack.sleep.rest.controller
 
 import com.noom.interview.fullstack.sleep.rest.dto.CreateSleepLogRequestDto
 import com.noom.interview.fullstack.sleep.rest.dto.CreateSleepLogResponseDto
+import com.noom.interview.fullstack.sleep.rest.dto.SleepLogResponseDto
 import com.noom.interview.fullstack.sleep.rest.mapper.createSleepLogRequestDtoToSleepLog
+import com.noom.interview.fullstack.sleep.rest.mapper.sleepLogToSleepLogResponseDto
 import com.noom.interview.fullstack.sleep.service.SleepLogService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -34,5 +36,18 @@ class SleepLogController(
         val sleepLog = createSleepLogRequestDtoToSleepLog(dto, username)
         val createdId = sleepLogService.createSleepLog(sleepLog)
         return CreateSleepLogResponseDto(createdId)
+    }
+
+    @GetMapping("/last-night")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get the sleep log for the last night")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "Sleep Log found", content = [
+            Content(mediaType = "application/json", schema = Schema(implementation = CreateSleepLogRequestDto::class))
+        ]),
+    ])
+    fun getLastNightSleepLog(@RequestHeader username: String): SleepLogResponseDto {
+        val sleepLog = sleepLogService.findLastNightSleepLog(username)
+        return sleepLogToSleepLogResponseDto(sleepLog)
     }
 }
