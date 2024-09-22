@@ -6,10 +6,13 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
+import java.time.LocalDate
 
 @ExtendWith(MockKExtension::class)
 class SleepLogJdbcRepositoryTest {
@@ -25,5 +28,21 @@ class SleepLogJdbcRepositoryTest {
         every { jdbcTemplate.update(any<String>(), any<MapSqlParameterSource>()) } returns 1
 
         assertEquals(1L, repository.save(getSleepLog()))
+    }
+
+    @Test
+    fun `should return the last night log`() {
+        val sleepLog = getSleepLog()
+
+        every { jdbcTemplate.queryForObject(any<String>(), any<MapSqlParameterSource>(), any<SleepLogRowMapper>()) } returns sleepLog
+
+        assertEquals(sleepLog, repository.findByUsernameAndDate(sleepLog.username, sleepLog.date))
+    }
+
+    @Test
+    fun `should return null when the last night log is not found`() {
+        every { jdbcTemplate.queryForObject(any<String>(), any<MapSqlParameterSource>(), any<SleepLogRowMapper>()) } throws EmptyResultDataAccessException(1)
+
+        assertNull(repository.findByUsernameAndDate("john", LocalDate.now()))
     }
 }

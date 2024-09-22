@@ -1,9 +1,11 @@
 package com.noom.interview.fullstack.sleep.repository
 
 import com.noom.interview.fullstack.sleep.entity.SleepLog
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 class SleepLogJdbcRepository(
@@ -23,4 +25,14 @@ class SleepLogJdbcRepository(
                 .addValue("feltWhenWokeUp", sleepLog.feltWhenWokeUp.toString()),
         ).toLong()
 
+    override fun findByUsernameAndDate(username: String, date: LocalDate): SleepLog? =
+        try {
+            jdbcTemplate.queryForObject(
+                "select * from sleep_log where username = :username and date = :date limit 1",
+                MapSqlParameterSource()
+                    .addValue("username", username)
+                    .addValue("date", date),
+                SleepLogRowMapper(),
+            )
+        } catch (e: EmptyResultDataAccessException) { null }
 }
