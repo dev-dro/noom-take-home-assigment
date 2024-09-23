@@ -45,4 +45,15 @@ class SleepLogJdbcRepositoryTest {
 
         assertNull(repository.findByUsernameAndDate("john", LocalDate.now()))
     }
+
+    @Test
+    fun `should return a list of sleep logs between two dates`() {
+        val startDate = LocalDate.now().minusDays(30)
+        val endDate = LocalDate.now()
+        val sleepLogs = (1..30).map { getSleepLog(it.toLong()) }
+
+        every { jdbcTemplate.query(any<String>(), any<MapSqlParameterSource>(), any<SleepLogRowMapper>()) } returns sleepLogs
+
+        assertEquals(sleepLogs, repository.findByUsernameAndDateBetween("john", startDate, endDate))
+    }
 }

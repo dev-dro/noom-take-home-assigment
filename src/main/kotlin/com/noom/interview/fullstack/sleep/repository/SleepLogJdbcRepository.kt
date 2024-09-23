@@ -35,4 +35,19 @@ class SleepLogJdbcRepository(
                 SleepLogRowMapper(),
             )
         } catch (e: EmptyResultDataAccessException) { null }
+
+    override fun findByUsernameAndDateBetween(
+        username: String,
+        startDate: LocalDate,
+        endDate: LocalDate
+    ): List<SleepLog> =
+        jdbcTemplate.query(
+            "select * from sleep_log where username = :username and date between :startDate and :endDate",
+            MapSqlParameterSource()
+                .addValue("username", username)
+                .addValue("startDate", startDate)
+                .addValue("endDate", endDate),
+            SleepLogRowMapper(),
+        )
+
 }
