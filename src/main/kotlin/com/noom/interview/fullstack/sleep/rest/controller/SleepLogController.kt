@@ -1,7 +1,6 @@
 package com.noom.interview.fullstack.sleep.rest.controller
 
 import com.noom.interview.fullstack.sleep.rest.dto.CreateSleepLogRequestDto
-import com.noom.interview.fullstack.sleep.rest.dto.CreateSleepLogResponseDto
 import com.noom.interview.fullstack.sleep.rest.dto.SleepLogResponseDto
 import com.noom.interview.fullstack.sleep.rest.dto.SleepLogsAveragesDto
 import com.noom.interview.fullstack.sleep.rest.mapper.createSleepLogRequestDtoToSleepLog
@@ -27,17 +26,14 @@ class SleepLogController(
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a sleep log for the last night")
     @ApiResponses(value = [
-        ApiResponse(responseCode = "201", description = "Sleep Log created", content = [
-            Content(mediaType = "application/json", schema = Schema(implementation = CreateSleepLogRequestDto::class))
-        ]),
+        ApiResponse(responseCode = "201", description = "Sleep Log created"),
     ])
     fun createSleepLog(
         @RequestHeader username: String,
         @RequestBody @Valid dto: CreateSleepLogRequestDto
-    ): CreateSleepLogResponseDto {
+    ) {
         val sleepLog = createSleepLogRequestDtoToSleepLog(dto, username)
-        val createdId = sleepLogService.createSleepLog(sleepLog)
-        return CreateSleepLogResponseDto(createdId)
+        sleepLogService.createSleepLog(sleepLog)
     }
 
     @GetMapping("/last-night")

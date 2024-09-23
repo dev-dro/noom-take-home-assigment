@@ -5,10 +5,13 @@ import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
 import com.noom.interview.fullstack.sleep.getSleepLog
 import com.noom.interview.fullstack.sleep.getSleepLogsAverages
 import com.noom.interview.fullstack.sleep.repository.SleepLogRepository
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.just
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -28,9 +31,10 @@ class SleepLogServiceTest {
     fun `should return the saved id when the sleep log is saved`() {
         val sleepLog = getSleepLog()
 
-        every { sleepLogRepository.save(sleepLog) } returns 1L
+        every { sleepLogRepository.save(sleepLog) } just Runs
 
-        assertEquals(1L, sleepLogService.createSleepLog(sleepLog))
+        sleepLogService.createSleepLog(sleepLog)
+        verify { sleepLogRepository.save(sleepLog) }
     }
 
     @Test

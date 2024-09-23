@@ -13,8 +13,8 @@ class SleepLogService(
     private val sleepLogRepository: SleepLogRepository
 ) {
 
-    fun createSleepLog(sleepLog: SleepLog): Long {
-        return sleepLogRepository.save(sleepLog)
+    fun createSleepLog(sleepLog: SleepLog) {
+        sleepLogRepository.save(sleepLog)
     }
 
     fun findLastNightSleepLog(username: String): SleepLog {

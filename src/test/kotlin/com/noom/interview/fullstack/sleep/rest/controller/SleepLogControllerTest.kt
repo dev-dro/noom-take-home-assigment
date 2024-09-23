@@ -5,7 +5,9 @@ import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
 import com.noom.interview.fullstack.sleep.getSleepLog
 import com.noom.interview.fullstack.sleep.getSleepLogsAverages
 import com.noom.interview.fullstack.sleep.service.SleepLogService
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -27,20 +29,19 @@ class SleepLogControllerTest {
     @Test
     fun `should return 201 with the saved id when a new sleep log is created`() {
         val json = """{ 
-            |   "startedSleep": "2024-09-21 23:00:00", 
-            |   "wokeUp": "2024-09-22 07:00:00", 
+            |   "startedSleep": "2024-09-21 23:00", 
+            |   "wokeUp": "2024-09-22 07:00", 
             |   "feltWhenWokeUp": "GOOD" 
             |}""".trimMargin()
         val sleepLog = getSleepLog()
 
-        every { sleepLogService.createSleepLog(sleepLog) } returns 1L
+        every { sleepLogService.createSleepLog(sleepLog) } just Runs
 
         mvc.perform(MockMvcRequestBuilders.post("/sleep-log")
             .header("username", "john")
             .contentType(MediaType.APPLICATION_JSON)
             .content(json))
             .andExpect(MockMvcResultMatchers.status().isCreated)
-            .andExpect(MockMvcResultMatchers.content().json("""{"id":  1}"""))
     }
 
     @Test
