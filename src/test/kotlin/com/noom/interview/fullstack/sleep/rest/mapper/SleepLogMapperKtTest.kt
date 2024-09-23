@@ -1,10 +1,13 @@
 package com.noom.interview.fullstack.sleep.rest.mapper
 
 import com.noom.interview.fullstack.sleep.getSleepLog
+import com.noom.interview.fullstack.sleep.getSleepLogsAverages
 import com.noom.interview.fullstack.sleep.rest.dto.CreateSleepLogRequestDto
 import com.noom.interview.fullstack.sleep.rest.dto.SleepLogResponseDto
+import com.noom.interview.fullstack.sleep.rest.dto.SleepLogsAveragesDto
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class SleepLogMapperKtTest {
@@ -33,6 +36,22 @@ class SleepLogMapperKtTest {
         )
 
         val result = sleepLogToSleepLogResponseDto(getSleepLog())
+        assertEquals(dto, result)
+    }
+
+    @Test
+    fun `should return a SleepLogsAveragesDto object from the SleepLogsAverages object`() {
+        val averages = getSleepLogsAverages(startDate = LocalDate.of(2024, 8, 23), endDate = LocalDate.of(2024, 9, 22))
+        val dto = SleepLogsAveragesDto(
+            startDate = "2024-08-23",
+            endDate = "2024-09-22",
+            averageMinutesSlept = 470.0,
+            averageStartedSleep = "22:50",
+            averageWokeUp = "06:50",
+            frequencyFeltWhenWokeUp = mapOf("GOOD" to 10, "BAD" to 10, "OK" to 10),
+        )
+
+        val result = sleepLogsAveragesToSleepLogsAveragesDto(averages)
         assertEquals(dto, result)
     }
 }

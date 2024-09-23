@@ -2,9 +2,11 @@ package com.noom.interview.fullstack.sleep.rest.mapper
 
 import com.noom.interview.fullstack.sleep.entity.Feeling
 import com.noom.interview.fullstack.sleep.entity.SleepLog
+import com.noom.interview.fullstack.sleep.entity.SleepLogsAverages
 import com.noom.interview.fullstack.sleep.exception.FieldValueInvalidException
 import com.noom.interview.fullstack.sleep.rest.dto.CreateSleepLogRequestDto
 import com.noom.interview.fullstack.sleep.rest.dto.SleepLogResponseDto
+import com.noom.interview.fullstack.sleep.rest.dto.SleepLogsAveragesDto
 import java.time.Duration
 import java.time.format.DateTimeFormatter
 
@@ -31,4 +33,14 @@ fun sleepLogToSleepLogResponseDto(sleepLog: SleepLog) =
         wokeUp = sleepLog.wokeUp.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
         minutesSlept = sleepLog.minutesSlept,
         feltWhenWokeUp = sleepLog.feltWhenWokeUp.name
+    )
+
+fun sleepLogsAveragesToSleepLogsAveragesDto(sleepLogsAverages: SleepLogsAverages): SleepLogsAveragesDto =
+    SleepLogsAveragesDto(
+        startDate = sleepLogsAverages.startDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+        endDate = sleepLogsAverages.endDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+        averageMinutesSlept = sleepLogsAverages.averageMinutesSlept,
+        averageStartedSleep = sleepLogsAverages.averageStartedSleep.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
+        averageWokeUp = sleepLogsAverages.averageWokeUp.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
+        frequencyFeltWhenWokeUp = sleepLogsAverages.frequencyFeltWhenWokeUp.mapKeys { it.key.name }
     )
