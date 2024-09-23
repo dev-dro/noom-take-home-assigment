@@ -2,7 +2,6 @@ package com.noom.interview.fullstack.sleep.rest.controller
 
 import com.noom.interview.fullstack.sleep.exception.FieldValueInvalidException
 import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
-import com.noom.interview.fullstack.sleep.rest.dto.CreateSleepLogRequestDto
 import com.noom.interview.fullstack.sleep.rest.dto.ErrorDto
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -36,7 +35,7 @@ class ControllerExceptionHandler {
     @ExceptionHandler(SleepLogNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ApiResponse(responseCode = "404", description = "Sleep Log not found", content = [
-    Content(mediaType = "application/json", schema = Schema(implementation = CreateSleepLogRequestDto::class))
+        Content(mediaType = "application/json", schema = Schema(implementation = ErrorDto::class))
     ])
     fun handleSleepLogNotFoundException(e: SleepLogNotFoundException) =
         ErrorDto(e.message)
