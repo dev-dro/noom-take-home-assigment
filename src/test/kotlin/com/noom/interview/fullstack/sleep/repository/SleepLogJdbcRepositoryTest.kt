@@ -5,6 +5,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -27,7 +28,8 @@ class SleepLogJdbcRepositoryTest {
     fun `should return the id when a sleep log is saved`() {
         every { jdbcTemplate.update(any<String>(), any<MapSqlParameterSource>()) } returns 1
 
-        assertEquals(1L, repository.save(getSleepLog()))
+        repository.save(getSleepLog())
+        verify { jdbcTemplate.update(any<String>(), any<MapSqlParameterSource>()) }
     }
 
     @Test

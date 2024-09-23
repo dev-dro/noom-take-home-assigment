@@ -6,11 +6,11 @@ import javax.validation.constraints.NotNull
 
 data class CreateSleepLogRequestDto(
     @field:NotNull(message = "The field startedSleep is required")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     val startedSleep: LocalDateTime?,
 
     @field:NotNull(message = "The field wokeUp is required")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     val wokeUp: LocalDateTime?,
 
     @field:NotNull(message = "The field feltWhenWokeUp is required")

@@ -12,7 +12,7 @@ class SleepLogJdbcRepository(
     private val jdbcTemplate: NamedParameterJdbcTemplate,
 ): SleepLogRepository {
 
-    override fun save(sleepLog: SleepLog): Long =
+    override fun save(sleepLog: SleepLog) {
         jdbcTemplate.update(
             "insert into sleep_log(username, date, started_sleep, woke_up, minutes_slept, felt_when_woke_up)  " +
                     "values (:username, :date, :startedSleep, :wokeUp, :minutesSlept, :feltWhenWokeUp)",
@@ -23,7 +23,8 @@ class SleepLogJdbcRepository(
                 .addValue("wokeUp", sleepLog.wokeUp)
                 .addValue("minutesSlept", sleepLog.minutesSlept)
                 .addValue("feltWhenWokeUp", sleepLog.feltWhenWokeUp.toString()),
-        ).toLong()
+        )
+    }
 
     override fun findByUsernameAndDate(username: String, date: LocalDate): SleepLog? =
         try {
