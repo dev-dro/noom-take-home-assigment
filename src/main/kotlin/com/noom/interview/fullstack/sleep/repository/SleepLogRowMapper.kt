@@ -10,10 +10,9 @@ class SleepLogRowMapper: RowMapper<SleepLog> {
         SleepLog(
             id = rs.getLong("id"),
             username = rs.getString("username"),
-            date = rs.getDate("date").toLocalDate(),
-            startedSleep = rs.getTimestamp("started_sleep").toLocalDateTime(),
-            wokeUp = rs.getTimestamp("woke_up").toLocalDateTime(),
-            minutesSlept = rs.getLong("minutes_slept"),
-            feltWhenWokeUp = Feeling.valueOf(rs.getString("felt_when_woke_up")),
+            logDate = rs.getDate("log_date").toLocalDate(),
+            startedSleepAt = rs.getTimestamp("started_sleep_at").toLocalDateTime(),
+            wokeUpAt = rs.getTimestamp("woke_up_at").toLocalDateTime(),
+            morningFeeling = Feeling.valueOf(rs.getString("morning_feeling")),
         )
 }

@@ -6,11 +6,10 @@ import java.time.LocalDateTime
 data class SleepLog(
     val id: Long?,
     val username: String,
-    val date: LocalDate,
-    val startedSleep: LocalDateTime,
-    val wokeUp: LocalDateTime,
-    val minutesSlept: Long,
-    val feltWhenWokeUp: Feeling,
+    val logDate: LocalDate,
+    val startedSleepAt: LocalDateTime,
+    val wokeUpAt: LocalDateTime,
+    val morningFeeling: Feeling,
 )
 
 enum class Feeling {

@@ -38,7 +38,7 @@ class SleepLogJdbcRepositoryTest {
 
         every { jdbcTemplate.queryForObject(any<String>(), any<MapSqlParameterSource>(), any<SleepLogRowMapper>()) } returns sleepLog
 
-        assertEquals(sleepLog, repository.findByUsernameAndDate(sleepLog.username, sleepLog.date))
+        assertEquals(sleepLog, repository.findByUsernameAndDate(sleepLog.username, sleepLog.logDate))
     }
 
     @Test

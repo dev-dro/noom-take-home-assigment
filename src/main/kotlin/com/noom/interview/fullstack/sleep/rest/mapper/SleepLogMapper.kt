@@ -18,21 +18,20 @@ fun createSleepLogRequestDtoToSleepLog(dto: CreateSleepLogRequestDto, username: 
     SleepLog(
         id = null,
         username = username,
-        startedSleep = dto.startedSleep ?: throw FieldValueInvalidException("startedSleep"),
-        wokeUp = dto.wokeUp ?: throw FieldValueInvalidException("wokeUp"),
-        date = dto.wokeUp.toLocalDate(),
-        minutesSlept = Duration.between(dto.startedSleep, dto.wokeUp).toMinutes(),
-        feltWhenWokeUp = try { Feeling.valueOf(dto.feltWhenWokeUp ?: "") }
+        startedSleepAt = dto.startedSleep ?: throw FieldValueInvalidException("startedSleep"),
+        wokeUpAt = dto.wokeUp ?: throw FieldValueInvalidException("wokeUp"),
+        logDate = dto.wokeUp.toLocalDate(),
+        morningFeeling = try { Feeling.valueOf(dto.feltWhenWokeUp ?: "") }
             catch (e: IllegalArgumentException) { throw FieldValueInvalidException("wokeUp") }
     )
 
 fun sleepLogToSleepLogResponseDto(sleepLog: SleepLog) =
     SleepLogResponseDto(
-        date = sleepLog.date.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
-        startedSleep = sleepLog.startedSleep.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
-        wokeUp = sleepLog.wokeUp.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
-        minutesSlept = sleepLog.minutesSlept,
-        feltWhenWokeUp = sleepLog.feltWhenWokeUp.name
+        date = sleepLog.logDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+        startedSleep = sleepLog.startedSleepAt.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
+        wokeUp = sleepLog.wokeUpAt.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
+        minutesSlept = Duration.between(sleepLog.startedSleepAt, sleepLog.startedSleepAt).toMinutes(),
+        feltWhenWokeUp = sleepLog.morningFeeling.name
     )
 
 fun sleepLogsAveragesToSleepLogsAveragesDto(sleepLogsAverages: SleepLogsAverages): SleepLogsAveragesDto =
