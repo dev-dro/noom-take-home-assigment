@@ -27,8 +27,8 @@ fun getSleepLogsAverages(
         startDate = startDate,
         endDate = endDate,
         averageMinutesSlept = 500.0,
-        averageStartedSleep = LocalTime.of(22, 50),
-        averageWokeUp = LocalTime.of(7, 10),
-        frequencyFeltWhenWokeUp = mapOf(Feeling.GOOD to frequency, Feeling.OK to frequency, Feeling.BAD to frequency)
+        averageStartedSleepAt = LocalTime.of(22, 50),
+        averageWokeUpAt = LocalTime.of(7, 10),
+        frequencyMorningFeeling = mapOf(Feeling.GOOD to frequency, Feeling.OK to frequency, Feeling.BAD to frequency)
     )
 }
