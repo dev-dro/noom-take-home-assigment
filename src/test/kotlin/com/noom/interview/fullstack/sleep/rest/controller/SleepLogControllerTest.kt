@@ -29,9 +29,9 @@ class SleepLogControllerTest {
     @Test
     fun `should return 201 with the saved id when a new sleep log is created`() {
         val json = """{ 
-            |   "startedSleep": "2024-09-21 23:00", 
-            |   "wokeUp": "2024-09-22 07:00", 
-            |   "feltWhenWokeUp": "GOOD" 
+            |   "startedSleepAt": "2024-09-21 23:00", 
+            |   "wokeUpAt": "2024-09-22 07:00", 
+            |   "morningFeeling": "GOOD" 
             |}""".trimMargin()
         val sleepLog = getSleepLog()
 
@@ -51,11 +51,11 @@ class SleepLogControllerTest {
             .header("username", "john"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().json("""{
-                    | "date": "2024-09-22",
-                    | "startedSleep": "2024-09-21 23:00",
-                    | "wokeUp": "2024-09-22 07:00",
+                    | "logDate": "2024-09-22",
+                    | "startedSleepAt": "2024-09-21 23:00",
+                    | "wokeUpAt": "2024-09-22 07:00",
                     | "minutesSlept": 480,
-                    | "feltWhenWokeUp": "GOOD"
+                    | "morningFeeling": "GOOD"
                     |}""".trimMargin()))
     }
 
@@ -79,10 +79,10 @@ class SleepLogControllerTest {
             .andExpect(MockMvcResultMatchers.content().json("""{
                     | "startDate": "2024-08-23",
                     | "endDate": "2024-09-22",
-                    | "averageMinutesSlept": 470.0,
-                    | "averageStartedSleep": "22:50",
-                    | "averageWokeUp": "06:50",
-                    | "frequencyFeltWhenWokeUp": {
+                    | "averageMinutesSlept": 500.0,
+                    | "averageStartedSleepAt": "22:50",
+                    | "averageWokeUpAt": "07:10",
+                    | "frequencyMorningFeeling": {
                     |     "GOOD": 10,
                     |     "BAD": 10,
                     |     "OK": 10

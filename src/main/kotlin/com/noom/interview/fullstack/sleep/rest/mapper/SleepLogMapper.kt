@@ -6,7 +6,7 @@ import com.noom.interview.fullstack.sleep.entity.SleepLogsAverages
 import com.noom.interview.fullstack.sleep.exception.FieldValueInvalidException
 import com.noom.interview.fullstack.sleep.rest.dto.CreateSleepLogRequestDto
 import com.noom.interview.fullstack.sleep.rest.dto.SleepLogResponseDto
-import com.noom.interview.fullstack.sleep.rest.dto.SleepLogsAveragesDto
+import com.noom.interview.fullstack.sleep.rest.dto.SleepLogsAveragesResponseDto
 import java.time.Duration
 import java.time.format.DateTimeFormatter
 
@@ -18,28 +18,28 @@ fun createSleepLogRequestDtoToSleepLog(dto: CreateSleepLogRequestDto, username: 
     SleepLog(
         id = null,
         username = username,
-        startedSleepAt = dto.startedSleep ?: throw FieldValueInvalidException("startedSleep"),
-        wokeUpAt = dto.wokeUp ?: throw FieldValueInvalidException("wokeUp"),
-        logDate = dto.wokeUp.toLocalDate(),
-        morningFeeling = try { Feeling.valueOf(dto.feltWhenWokeUp ?: "") }
+        startedSleepAt = dto.startedSleepAt ?: throw FieldValueInvalidException("startedSleep"),
+        wokeUpAt = dto.wokeUpAt ?: throw FieldValueInvalidException("wokeUp"),
+        logDate = dto.wokeUpAt.toLocalDate(),
+        morningFeeling = try { Feeling.valueOf(dto.morningFeeling ?: "") }
             catch (e: IllegalArgumentException) { throw FieldValueInvalidException("wokeUp") }
     )
 
 fun sleepLogToSleepLogResponseDto(sleepLog: SleepLog) =
     SleepLogResponseDto(
-        date = sleepLog.logDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
-        startedSleep = sleepLog.startedSleepAt.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
-        wokeUp = sleepLog.wokeUpAt.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
-        minutesSlept = Duration.between(sleepLog.startedSleepAt, sleepLog.startedSleepAt).toMinutes(),
-        feltWhenWokeUp = sleepLog.morningFeeling.name
+        logDate = sleepLog.logDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+        startedSleepAt = sleepLog.startedSleepAt.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
+        wokeUpAt = sleepLog.wokeUpAt.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)),
+        minutesSlept = Duration.between(sleepLog.startedSleepAt, sleepLog.wokeUpAt).toMinutes(),
+        morningFeeling = sleepLog.morningFeeling.name
     )
 
-fun sleepLogsAveragesToSleepLogsAveragesDto(sleepLogsAverages: SleepLogsAverages): SleepLogsAveragesDto =
-    SleepLogsAveragesDto(
+fun sleepLogsAveragesToSleepLogsAveragesDto(sleepLogsAverages: SleepLogsAverages): SleepLogsAveragesResponseDto =
+    SleepLogsAveragesResponseDto(
         startDate = sleepLogsAverages.startDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
         endDate = sleepLogsAverages.endDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
         averageMinutesSlept = sleepLogsAverages.averageMinutesSlept,
-        averageStartedSleep = sleepLogsAverages.averageStartedSleep.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
-        averageWokeUp = sleepLogsAverages.averageWokeUp.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
-        frequencyFeltWhenWokeUp = sleepLogsAverages.frequencyFeltWhenWokeUp.mapKeys { it.key.name }
+        averageStartedSleepAt = sleepLogsAverages.averageStartedSleep.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
+        averageWokeUpAt = sleepLogsAverages.averageWokeUp.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
+        frequencyMorningFeeling = sleepLogsAverages.frequencyFeltWhenWokeUp.mapKeys { it.key.name }
     )

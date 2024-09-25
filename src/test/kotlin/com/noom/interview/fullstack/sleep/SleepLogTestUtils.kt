@@ -13,7 +13,7 @@ fun getSleepLog(id: Long? = null, variation: Int = 0, feeling: Feeling = Feeling
         username = "john",
         logDate = LocalDate.of(2024, 9, 22).minusDays(id ?: 0),
         startedSleepAt = LocalDateTime.of(2024, 9, 21, 23, 0).minusDays(id ?: 0).minusMinutes(variation * 10L),
-        wokeUpAt = LocalDateTime.of(2024, 9, 22, 7, 0).minusDays(id ?: 0).minusMinutes(variation * 10L),
+        wokeUpAt = LocalDateTime.of(2024, 9, 22, 7, 0).minusDays(id ?: 0).plusMinutes(variation * 10L),
         morningFeeling = feeling,
     )
 
@@ -26,9 +26,9 @@ fun getSleepLogsAverages(
     return SleepLogsAverages(
         startDate = startDate,
         endDate = endDate,
-        averageMinutesSlept = 470.0,
+        averageMinutesSlept = 500.0,
         averageStartedSleep = LocalTime.of(22, 50),
-        averageWokeUp = LocalTime.of(6, 50),
+        averageWokeUp = LocalTime.of(7, 10),
         frequencyFeltWhenWokeUp = mapOf(Feeling.GOOD to frequency, Feeling.OK to frequency, Feeling.BAD to frequency)
     )
 }

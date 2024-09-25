@@ -1,5 +1,5 @@
 package com.noom.interview.fullstack.sleep.rest.dto
 
-data class ErrorDto(
+data class ErrorResponseDto(
     val message: String,
 )
