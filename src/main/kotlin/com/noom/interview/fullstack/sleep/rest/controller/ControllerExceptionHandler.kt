@@ -2,6 +2,7 @@ package com.noom.interview.fullstack.sleep.rest.controller
 
 import com.noom.interview.fullstack.sleep.exception.FieldValueInvalidException
 import com.noom.interview.fullstack.sleep.exception.SleepLogAlreadyExistsException
+import com.noom.interview.fullstack.sleep.exception.SleepLogInvalidTimeException
 import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
 import com.noom.interview.fullstack.sleep.rest.dto.ErrorResponseDto
 import io.swagger.v3.oas.annotations.media.Content
@@ -39,6 +40,14 @@ class ControllerExceptionHandler {
         Content(mediaType = "application/json", schema = Schema(implementation = ErrorResponseDto::class))
     ])
     fun handleSleepLogAlreadyExistsException(e: SleepLogAlreadyExistsException) =
+        ErrorResponseDto(e.message)
+
+    @ExceptionHandler(SleepLogInvalidTimeException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ApiResponse(responseCode = "400", description = "Bad Request", content = [
+        Content(mediaType = "application/json", schema = Schema(implementation = ErrorResponseDto::class))
+    ])
+    fun handleSleepLogInvalidTimesException(e: SleepLogInvalidTimeException) =
         ErrorResponseDto(e.message)
 
     @ExceptionHandler(SleepLogNotFoundException::class)
