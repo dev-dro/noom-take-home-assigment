@@ -9,6 +9,7 @@ import com.noom.interview.fullstack.sleep.repository.SleepLogRepository
 import org.springframework.stereotype.Service
 import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Service
@@ -22,7 +23,11 @@ class SleepLogService(
         }
 
         if (!sleepLog.startedSleepAt.isBefore(sleepLog.wokeUpAt)) {
-            throw SleepLogInvalidTimeException()
+            throw SleepLogInvalidTimeException("The startSleepAt needs to be before the wokeUpAt")
+        }
+
+        if (sleepLog.wokeUpAt.isAfter(LocalDateTime.now())) {
+            throw SleepLogInvalidTimeException("The wokeUpAt needs to be before the current time")
         }
 
         sleepLogRepository.save(sleepLog)

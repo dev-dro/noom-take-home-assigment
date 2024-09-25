@@ -48,7 +48,7 @@ class ControllerExceptionHandler {
         Content(mediaType = "application/json", schema = Schema(implementation = ErrorResponseDto::class))
     ])
     fun handleSleepLogInvalidTimesException(e: SleepLogInvalidTimeException) =
-        ErrorResponseDto(e.message)
+        ErrorResponseDto(e.message ?: "Unknown error")
 
     @ExceptionHandler(SleepLogNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

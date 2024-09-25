@@ -84,6 +84,22 @@ class SleepLogServiceTest {
     }
 
     @Test
+    fun `should throw error when the wokeUpAt value is after the current time`() {
+        val sleepLog = SleepLog(
+            id  = null,
+            username = "john",
+            logDate = LocalDate.now(),
+            startedSleepAt = LocalDateTime.now().minusHours(6),
+            wokeUpAt = LocalDateTime.now().plusMinutes(1),
+            morningFeeling = Feeling.OK,
+        )
+
+        every { sleepLogRepository.findByUsernameAndDate(sleepLog.username, sleepLog.logDate) } returns null
+
+        assertThrows(SleepLogInvalidTimeException::class.java) { sleepLogService.createSleepLog(sleepLog) }
+    }
+
+    @Test
     fun `should return the last night log`() {
         val sleepLog = getSleepLog()
         val username = "john"
