@@ -33,9 +33,9 @@ class SleepLogService(
             startDate = startDate,
             endDate = endDate,
             averageMinutesSlept = sleepLogs.map { Duration.between(it.startedSleepAt, it.wokeUpAt).toMinutes() }.average(),
-            averageStartedSleep = sleepLogs.map { it.startedSleepAt.toLocalTime() }.average(),
-            averageWokeUp = sleepLogs.map { it.wokeUpAt.toLocalTime() }.average(),
-            frequencyFeltWhenWokeUp = sleepLogs.groupBy { it.morningFeeling }.mapValues { it.value.size }
+            averageStartedSleepAt = sleepLogs.map { it.startedSleepAt.toLocalTime() }.average(),
+            averageWokeUpAt = sleepLogs.map { it.wokeUpAt.toLocalTime() }.average(),
+            frequencyMorningFeeling = sleepLogs.groupBy { it.morningFeeling }.mapValues { it.value.size }
         )
     }
 

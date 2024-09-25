@@ -7,7 +7,7 @@ data class SleepLogsAverages(
     val startDate: LocalDate,
     val endDate: LocalDate,
     val averageMinutesSlept: Double,
-    val averageStartedSleep: LocalTime,
-    val averageWokeUp: LocalTime,
-    val frequencyFeltWhenWokeUp: Map<Feeling, Int>,
+    val averageStartedSleepAt: LocalTime,
+    val averageWokeUpAt: LocalTime,
+    val frequencyMorningFeeling: Map<Feeling, Int>,
 )

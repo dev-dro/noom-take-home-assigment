@@ -39,7 +39,7 @@ fun sleepLogsAveragesToSleepLogsAveragesDto(sleepLogsAverages: SleepLogsAverages
         startDate = sleepLogsAverages.startDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
         endDate = sleepLogsAverages.endDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
         averageMinutesSlept = sleepLogsAverages.averageMinutesSlept,
-        averageStartedSleepAt = sleepLogsAverages.averageStartedSleep.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
-        averageWokeUpAt = sleepLogsAverages.averageWokeUp.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
-        frequencyMorningFeeling = sleepLogsAverages.frequencyFeltWhenWokeUp.mapKeys { it.key.name }
+        averageStartedSleepAt = sleepLogsAverages.averageStartedSleepAt.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
+        averageWokeUpAt = sleepLogsAverages.averageWokeUpAt.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
+        frequencyMorningFeeling = sleepLogsAverages.frequencyMorningFeeling.mapKeys { it.key.name }
     )
