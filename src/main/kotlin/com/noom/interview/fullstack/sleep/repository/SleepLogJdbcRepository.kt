@@ -15,7 +15,7 @@ class SleepLogJdbcRepository(
     override fun save(sleepLog: SleepLog) {
         jdbcTemplate.update(
             "insert into sleep_log(username, log_date, started_sleep_at, woke_up_at, morning_feeling)  " +
-                    "values (:username, :date, :startedSleepAt, :wokeUpAt, :morningFeeling)",
+                    "values (:username, :logDate, :startedSleepAt, :wokeUpAt, :morningFeeling::feeling)",
             MapSqlParameterSource()
                 .addValue("username", sleepLog.username)
                 .addValue("logDate", sleepLog.logDate)
@@ -25,13 +25,13 @@ class SleepLogJdbcRepository(
         )
     }
 
-    override fun findByUsernameAndDate(username: String, date: LocalDate): SleepLog? =
+    override fun findByUsernameAndDate(username: String, logDate: LocalDate): SleepLog? =
         try {
             jdbcTemplate.queryForObject(
-                "select * from sleep_log where username = :username and log_date = :date limit 1",
+                "select * from sleep_log where username = :username and log_date = :logDate limit 1",
                 MapSqlParameterSource()
                     .addValue("username", username)
-                    .addValue("logDate", date),
+                    .addValue("logDate", logDate),
                 SleepLogRowMapper(),
             )
         } catch (e: EmptyResultDataAccessException) { null }

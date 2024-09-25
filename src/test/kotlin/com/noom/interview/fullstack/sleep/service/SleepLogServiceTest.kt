@@ -1,6 +1,7 @@
 package com.noom.interview.fullstack.sleep.service
 
 import com.noom.interview.fullstack.sleep.entity.Feeling
+import com.noom.interview.fullstack.sleep.exception.SleepLogAlreadyExistsException
 import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
 import com.noom.interview.fullstack.sleep.getSleepLog
 import com.noom.interview.fullstack.sleep.getSleepLogsAverages
@@ -31,10 +32,21 @@ class SleepLogServiceTest {
     fun `should return the saved id when the sleep log is saved`() {
         val sleepLog = getSleepLog()
 
+        every { sleepLogRepository.findByUsernameAndDate(sleepLog.username, sleepLog.logDate) } returns null
         every { sleepLogRepository.save(sleepLog) } just Runs
 
         sleepLogService.createSleepLog(sleepLog)
         verify { sleepLogRepository.save(sleepLog) }
+    }
+
+    @Test
+    fun `should throw error when a sleep log for the same username and date exists`() {
+        val sleepLog = getSleepLog()
+
+        every { sleepLogRepository.findByUsernameAndDate(sleepLog.username, sleepLog.logDate) } returns sleepLog
+        every { sleepLogRepository.save(sleepLog) } just Runs
+
+        assertThrows(SleepLogAlreadyExistsException::class.java) { sleepLogService.createSleepLog(sleepLog) }
     }
 
     @Test

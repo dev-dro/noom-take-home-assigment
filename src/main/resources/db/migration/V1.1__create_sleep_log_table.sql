@@ -1,4 +1,4 @@
-create type feeling as enum ('good', 'bad', 'ok');
+create type feeling as enum ('GOOD', 'BAD', 'OK');
 
 create table if not exists sleep_log (
     id int generated always as identity primary key,
