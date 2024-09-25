@@ -1,6 +1,7 @@
 package com.noom.interview.fullstack.sleep.rest.controller
 
 import com.ninjasquad.springmockk.MockkBean
+import com.noom.interview.fullstack.sleep.exception.SleepLogAlreadyExistsException
 import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
 import com.noom.interview.fullstack.sleep.getSleepLog
 import com.noom.interview.fullstack.sleep.getSleepLogsAverages
@@ -42,6 +43,24 @@ class SleepLogControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(json))
             .andExpect(MockMvcResultMatchers.status().isCreated)
+    }
+
+    @Test
+    fun `should return 400 when a sleep log for this username and date already exists`() {
+        val json = """{ 
+            |   "startedSleepAt": "2024-09-21 23:00", 
+            |   "wokeUpAt": "2024-09-22 07:00", 
+            |   "morningFeeling": "GOOD" 
+            |}""".trimMargin()
+        val sleepLog = getSleepLog()
+
+        every { sleepLogService.createSleepLog(sleepLog) } throws SleepLogAlreadyExistsException()
+
+        mvc.perform(MockMvcRequestBuilders.post("/sleep-log")
+            .header("username", "john")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
     }
 
     @Test
