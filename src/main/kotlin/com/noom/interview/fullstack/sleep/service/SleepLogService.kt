@@ -5,6 +5,7 @@ import com.noom.interview.fullstack.sleep.entity.SleepLogsAverages
 import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
 import com.noom.interview.fullstack.sleep.repository.SleepLogRepository
 import org.springframework.stereotype.Service
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -31,10 +32,10 @@ class SleepLogService(
         return SleepLogsAverages(
             startDate = startDate,
             endDate = endDate,
-            averageMinutesSlept = sleepLogs.map { it.minutesSlept }.average(),
-            averageStartedSleep = sleepLogs.map { it.startedSleep.toLocalTime() }.average(),
-            averageWokeUp = sleepLogs.map { it.wokeUp.toLocalTime() }.average(),
-            frequencyFeltWhenWokeUp = sleepLogs.groupBy { it.feltWhenWokeUp }.mapValues { it.value.size }
+            averageMinutesSlept = sleepLogs.map { Duration.between(it.startedSleepAt, it.wokeUpAt).toMinutes() }.average(),
+            averageStartedSleep = sleepLogs.map { it.startedSleepAt.toLocalTime() }.average(),
+            averageWokeUp = sleepLogs.map { it.wokeUpAt.toLocalTime() }.average(),
+            frequencyFeltWhenWokeUp = sleepLogs.groupBy { it.morningFeeling }.mapValues { it.value.size }
         )
     }
 

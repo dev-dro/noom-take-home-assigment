@@ -5,14 +5,14 @@ import java.time.LocalDateTime
 import javax.validation.constraints.NotNull
 
 data class CreateSleepLogRequestDto(
-    @field:NotNull(message = "The field startedSleep is required")
+    @field:NotNull(message = "The field startedSleepAt is required")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    val startedSleep: LocalDateTime?,
+    val startedSleepAt: LocalDateTime?,
 
-    @field:NotNull(message = "The field wokeUp is required")
+    @field:NotNull(message = "The field wokeUpAt is required")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    val wokeUp: LocalDateTime?,
+    val wokeUpAt: LocalDateTime?,
 
-    @field:NotNull(message = "The field feltWhenWokeUp is required")
-    val feltWhenWokeUp: String?,
+    @field:NotNull(message = "The field morningFeeling is required")
+    val morningFeeling: String?,
 )

@@ -14,25 +14,24 @@ class SleepLogJdbcRepository(
 
     override fun save(sleepLog: SleepLog) {
         jdbcTemplate.update(
-            "insert into sleep_log(username, date, started_sleep, woke_up, minutes_slept, felt_when_woke_up)  " +
-                    "values (:username, :date, :startedSleep, :wokeUp, :minutesSlept, :feltWhenWokeUp)",
+            "insert into sleep_log(username, log_date, started_sleep_at, woke_up_at, morning_feeling)  " +
+                    "values (:username, :date, :startedSleepAt, :wokeUpAt, :morningFeeling)",
             MapSqlParameterSource()
                 .addValue("username", sleepLog.username)
-                .addValue("date", sleepLog.date)
-                .addValue("startedSleep", sleepLog.startedSleep)
-                .addValue("wokeUp", sleepLog.wokeUp)
-                .addValue("minutesSlept", sleepLog.minutesSlept)
-                .addValue("feltWhenWokeUp", sleepLog.feltWhenWokeUp.toString()),
+                .addValue("logDate", sleepLog.logDate)
+                .addValue("startedSleepAt", sleepLog.startedSleepAt)
+                .addValue("wokeUpAt", sleepLog.wokeUpAt)
+                .addValue("morningFeeling", sleepLog.morningFeeling.toString()),
         )
     }
 
     override fun findByUsernameAndDate(username: String, date: LocalDate): SleepLog? =
         try {
             jdbcTemplate.queryForObject(
-                "select * from sleep_log where username = :username and date = :date limit 1",
+                "select * from sleep_log where username = :username and log_date = :date limit 1",
                 MapSqlParameterSource()
                     .addValue("username", username)
-                    .addValue("date", date),
+                    .addValue("logDate", date),
                 SleepLogRowMapper(),
             )
         } catch (e: EmptyResultDataAccessException) { null }
@@ -43,7 +42,7 @@ class SleepLogJdbcRepository(
         endDate: LocalDate
     ): List<SleepLog> =
         jdbcTemplate.query(
-            "select * from sleep_log where username = :username and date between :startDate and :endDate",
+            "select * from sleep_log where username = :username and log_date between :startDate and :endDate",
             MapSqlParameterSource()
                 .addValue("username", username)
                 .addValue("startDate", startDate)

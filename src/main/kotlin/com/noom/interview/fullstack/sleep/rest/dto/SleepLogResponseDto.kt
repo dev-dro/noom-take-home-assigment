@@ -1,9 +1,9 @@
 package com.noom.interview.fullstack.sleep.rest.dto
 
 data class SleepLogResponseDto(
-    val date: String,
-    val startedSleep: String,
-    val wokeUp: String,
+    val logDate: String,
+    val startedSleepAt: String,
+    val wokeUpAt: String,
     val minutesSlept: Long,
-    val feltWhenWokeUp: String
+    val morningFeeling: String
 )
