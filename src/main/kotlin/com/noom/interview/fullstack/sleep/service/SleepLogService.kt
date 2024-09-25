@@ -3,6 +3,7 @@ package com.noom.interview.fullstack.sleep.service
 import com.noom.interview.fullstack.sleep.entity.SleepLog
 import com.noom.interview.fullstack.sleep.entity.SleepLogsAverages
 import com.noom.interview.fullstack.sleep.exception.SleepLogAlreadyExistsException
+import com.noom.interview.fullstack.sleep.exception.SleepLogInvalidTimeException
 import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
 import com.noom.interview.fullstack.sleep.repository.SleepLogRepository
 import org.springframework.stereotype.Service
@@ -18,6 +19,10 @@ class SleepLogService(
     fun createSleepLog(sleepLog: SleepLog) {
         sleepLogRepository.findByUsernameAndDate(sleepLog.username, sleepLog.logDate)?.let {
             throw SleepLogAlreadyExistsException()
+        }
+
+        if (!sleepLog.startedSleepAt.isBefore(sleepLog.wokeUpAt)) {
+            throw SleepLogInvalidTimeException()
         }
 
         sleepLogRepository.save(sleepLog)

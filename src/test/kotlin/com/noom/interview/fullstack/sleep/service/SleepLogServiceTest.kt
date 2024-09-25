@@ -1,7 +1,9 @@
 package com.noom.interview.fullstack.sleep.service
 
 import com.noom.interview.fullstack.sleep.entity.Feeling
+import com.noom.interview.fullstack.sleep.entity.SleepLog
 import com.noom.interview.fullstack.sleep.exception.SleepLogAlreadyExistsException
+import com.noom.interview.fullstack.sleep.exception.SleepLogInvalidTimeException
 import com.noom.interview.fullstack.sleep.exception.SleepLogNotFoundException
 import com.noom.interview.fullstack.sleep.getSleepLog
 import com.noom.interview.fullstack.sleep.getSleepLogsAverages
@@ -18,6 +20,7 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @ExtendWith(MockKExtension::class)
 class SleepLogServiceTest {
@@ -44,9 +47,40 @@ class SleepLogServiceTest {
         val sleepLog = getSleepLog()
 
         every { sleepLogRepository.findByUsernameAndDate(sleepLog.username, sleepLog.logDate) } returns sleepLog
-        every { sleepLogRepository.save(sleepLog) } just Runs
 
         assertThrows(SleepLogAlreadyExistsException::class.java) { sleepLogService.createSleepLog(sleepLog) }
+    }
+
+    @Test
+    fun `should throw error when the startSleepAt value is after the wokeUpAt value`() {
+        val sleepLog = SleepLog(
+            id  = null,
+            username = "john",
+            logDate = LocalDate.of(2024, 9, 22),
+            startedSleepAt = LocalDateTime.of(2024, 9, 22, 7, 1),
+            wokeUpAt = LocalDateTime.of(2024, 9, 22, 7, 0),
+            morningFeeling = Feeling.OK,
+        )
+
+        every { sleepLogRepository.findByUsernameAndDate(sleepLog.username, sleepLog.logDate) } returns null
+
+        assertThrows(SleepLogInvalidTimeException::class.java) { sleepLogService.createSleepLog(sleepLog) }
+    }
+
+    @Test
+    fun `should throw error when the startSleepAt value is equal the wokeUpAt value`() {
+        val sleepLog = SleepLog(
+            id  = null,
+            username = "john",
+            logDate = LocalDate.of(2024, 9, 22),
+            startedSleepAt = LocalDateTime.of(2024, 9, 22, 7, 0),
+            wokeUpAt = LocalDateTime.of(2024, 9, 22, 7, 0),
+            morningFeeling = Feeling.OK,
+        )
+
+        every { sleepLogRepository.findByUsernameAndDate(sleepLog.username, sleepLog.logDate) } returns null
+
+        assertThrows(SleepLogInvalidTimeException::class.java) { sleepLogService.createSleepLog(sleepLog) }
     }
 
     @Test
