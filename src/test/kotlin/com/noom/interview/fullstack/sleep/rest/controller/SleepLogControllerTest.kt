@@ -30,8 +30,8 @@ class SleepLogControllerTest {
     @Test
     fun `should return 201 with the saved id when a new sleep log is created`() {
         val json = """{ 
-            |   "startedSleepAt": "2024-09-21 23:00", 
-            |   "wokeUpAt": "2024-09-22 07:00", 
+            |   "startedSleepAt": "2024-09-21T23:00:00.000Z", 
+            |   "wokeUpAt": "2024-09-22T07:00:00.000Z", 
             |   "morningFeeling": "GOOD" 
             |}""".trimMargin()
         val sleepLog = getSleepLog()
@@ -71,8 +71,8 @@ class SleepLogControllerTest {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().json("""{
                     | "logDate": "2024-09-22",
-                    | "startedSleepAt": "2024-09-21 23:00",
-                    | "wokeUpAt": "2024-09-22 07:00",
+                    | "startedSleepAt": "2024-09-21T23:00:00.000Z",
+                    | "wokeUpAt": "2024-09-22T07:00:00.000Z",
                     | "minutesSlept": 480,
                     | "morningFeeling": "GOOD"
                     |}""".trimMargin()))
