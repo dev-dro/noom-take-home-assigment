@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \n    \"startedSleepAt\": \"2024-09-23 23:00\", \n    \"wokeUpAt\": \"2024-09-23 07:00:00\", \n    \"morningFeeling\": \"GOOD\" \n}",
+					"raw": "{ \n    \"startedSleepAt\": \"2024-09-23T23:00:00.000Z\", \n    \"wokeUpAt\": \"2024-09-23T07:00:00:00.000Z\", \n    \"morningFeeling\": \"GOOD\" \n}",
 					"options": {
 						"raw": {
 							"language": "json"
