@@ -23,9 +23,9 @@ Create Sleep Logs for past nights - It's allowed to create Sleep Logs for dates 
 This is most to facilitate the population of the database with logs for more days, but also can be a nice feature to
 consider if a new user wants to import his past data.
 
-Date Time Format - The date time format chosen was `yyyy-MM-dd HH:mm`, and the API will only accept this format. I din't
-consider the seconds in the format because I think that seconds of sleep it's not relevant. This can also be seeing in
-the information about the total time of sleep and the average time of sleep, all of them are in minutes.
+Date Time Format - The date time format chosen for inputs is `yyyy-MM-ddTHH:mm:ss:SSSZ`, and the API will only accept this format.
+For the time values on outputs, the format is `HH:mm`, I choose to not consider the seconds in the format because I think that seconds of sleep it's not relevant. 
+This can also be seeing in the information about the total time of sleep and the average time of sleep, all of them are in minutes.
 
 ### Implementation
 
