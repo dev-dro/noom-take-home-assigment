@@ -61,6 +61,12 @@ mainly to keep it more organized and avoid having a lot of migration files to do
 I created unit tests for the services, controller and mapper to check the functionality of the code. 
 I also created an integration test for the repository to check the connection and operations in a postgres database. 
 I used the JUnit and MockK libraries to create the unit tests, and Testcontainers to create the integration test.
+Due to incompatibilities between the Testcontainers and the openjdk docker image, the integration test was excluded from the build.
+To run the integration test, you need to run the following command:
+
+```shell
+./gradlew integrationTest
+```
 
 ### Running the application
 
