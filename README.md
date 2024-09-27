@@ -7,7 +7,7 @@ decisions I made during the development in the sections below.
 
 I decided to adopt the following business rules that weren't specified in the challenge description:
 
-Authentication/Authorization - it was instructed this aspects but be aware of the concept of a user. I did so trough
+Authentication/Authorization - it was instructed to ignore these aspects but be aware of the concept of a user. I did so through
 the use of the `username` header. This header identifies which user is making the request, and the API will only return
 the data related to this user.
 
@@ -15,7 +15,7 @@ Only one Sleep Log per day - I decided to allow only one Sleep Log per day, main
 confusion about the concepts of "night sleep" and "day sleep". If a user tries to create a new Sleep Log for a day that
 already has one, the API will return an error.
 
-Last Night Log - The "last night" log is considered the log that has the date of the current day. Since the the sleep
+Last Night Log - The "last night" log is considered the log that has the date of the current day. Since the sleep
 can start in the night of the last day or in the first hours of the current day, only the wake up time is considered to
 determine the date of the log.
 
@@ -38,7 +38,7 @@ I provided a simple open-ai documentation for the APi, along with the swagger-ui
 .html`.
 
 Dto classes where created to handle the data and validations of the requests and responses. This was done to separate
-the concerns of the Rest API and the entities, providing the informations requested for the API without the need to 
+the concerns of the Rest API and the entities, providing the information requested for the API without the need to 
 change the entities, business logic and the database schema. It also facilitates other integrations, 
 like message brokers, to use the same data structure.
 
@@ -61,6 +61,12 @@ mainly to keep it more organized and avoid having a lot of migration files to do
 I created unit tests for the services, controller and mapper to check the functionality of the code. 
 I also created an integration test for the repository to check the connection and operations in a postgres database. 
 I used the JUnit and MockK libraries to create the unit tests, and Testcontainers to create the integration test.
+Due to incompatibilities between the Testcontainers and the openjdk docker image, the integration test was excluded from the build.
+To run the integration test, you need to run the following command:
+
+```shell
+./gradlew integrationTest
+```
 
 ### Running the application
 
